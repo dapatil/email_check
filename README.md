@@ -52,11 +52,30 @@ Everything together:
 validates :email, email: { mx: true, disposable:true, free:true, blacklist:true}
 ```
 
+### Modifying inbuilt lists
+The lists are exposed as assignable arrays so you can customize them or load whatever data you please.
+
+Add a config/intializers/email_check.rb
+```ruby
+# Set disposable email domains
+EmailCheck.disposable_email_domains = ['freemail.org']
+# Append to the whitelist
+EmailCheck.whitelisted_domains << 'gmail.com'
+EmailCheck.free_email_domains << 'thenewgmail.com'
+# Setting a domain in the blacklist also will blacklist all subdomains
+EmailCheck.blacklisted_domains << 'lvh.me'
+```
+
 ## Requirements
 This gem is tested with Rails 4.0. Ruby versions tested:
 - Ruby 2.0
 - Ruby 2.1
 - Ruby 2.2
+
+## Credits
+This code is heavily based upon: [lisinge/valid_email2](https://github.com/lisinge/valid_email2)
+Data is from: [lavab/disposable](https://github.com/lavab/disposable/blob/master/domains.txt) and
+              [willwhite/freemail](https://github.com/willwhite/freemail/blob/master/data/free.txt)
 
 [Gem Version]: https://rubygems.org/gems/email_check
 [Build Status]: https://travis-ci.org/dapatil/email_check

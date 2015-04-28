@@ -2,6 +2,11 @@ require "email_check/version"
 require "email_check/email_validator"
 
 module EmailCheck
+  # Load the data
+  @@disposable_email_domains ||= YAML.load_file(File.expand_path("../../vendor/disposable.yml", __FILE__))
+  @@free_email_domains ||= YAML.load_file(File.expand_path("../../vendor/free.yml", __FILE__))
+  @@blacklisted_domains ||= YAML.load_file(File.expand_path("../../vendor/blacklist.yml", __FILE__))
+
   # Disposable email providers
   def self.disposable_email_domains
     @@disposable_email_domains ||= []
@@ -38,6 +43,3 @@ module EmailCheck
     @@whitelisted_domains = list
   end
 end
-
-# Load data!
-
