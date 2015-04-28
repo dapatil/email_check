@@ -49,7 +49,7 @@ validates :email, email: { blacklist:true}
 ```
 Everything together:
 ```ruby
-validates :email, email: { mx: true, disposable:true, free:true, blacklist:true}
+validates :email, email: { mx: true, disposable:true, free:true, blacklist:true, message: "Please register with your corporate email" }
 ```
 
 ### Modifying inbuilt lists
