@@ -1,0 +1,81 @@
+require 'spec_helper'
+
+class TestEmail < TestModel
+  validates :email, email: true
+end
+
+class TestBlacklistedEmail < TestModel
+  validates :email, email: { blacklist: true }
+end
+
+class TestDisposableEmail < TestModel
+  validates :email, email: { disposable: true}
+end
+
+class TestFreeEmail < TestModel
+  validates :email, email: { free: true}
+end
+
+describe EmailCheck do
+  it 'has a version number' do
+    expect(EmailCheck::VERSION).not_to be nil
+  end
+
+  describe "Basic validation" do
+    it "should be invalid when email is empty" do
+      expect(TestEmail.new(email:"").valid?).to be false
+    end
+
+    it "should be invalid when domain is missing" do
+      ["dap", "dap@", "@"].each do |email|
+        expect(TestEmail.new(email:email).valid?).to be false
+      end
+    end
+
+    it "should be invalid if Mail::AddressListsParser raises exception" do
+      t = TestEmail.new(email:"email@gmail.com")
+      allow(Mail::Address).to receive(:new).and_raise(Mail::Field::ParseError.new(nil, nil, nil))
+      expect(t.valid?).to be false
+    end
+
+    it "should be invalid when email is malformed" do
+      ["foo@bar", "@bar", "foo@bar..com", "foo@bar."].each do |email|
+        expect(TestEmail.new(email:email).valid?).to be false
+      end
+    end
+  end
+
+  describe "Disposable Emails" do
+    before do
+      EmailCheck.disposable_email_domains = []
+    end
+
+    it "should be valid when email domain is not in the list of disposable emails" do
+      email = "user@gmail.com"
+      expect(TestDisposableEmail.new(email:email).valid?).to be true
+    end
+
+    it "should not be valid when email domain is in the list of disposable emails" do
+      EmailCheck.disposable_email_domains << "gmail.com"
+      email = "user@gmail.com"
+      expect(TestDisposableEmail.new(email:email).valid?).to be false
+    end
+  end
+
+  describe "Free Emails" do
+    before do
+      EmailCheck.free_email_domains = []
+    end
+
+    it "should be valid when email domain is not in the list of free emails" do
+      email = "someone@example.com"
+      expect(TestFreeEmail.new(email:email).valid?).to be true
+    end
+
+    it "should not be valid when email domain is not in the list of free emails" do
+      EmailCheck.free_email_domains << "gmail.com"
+      email = "someone@gmail.com"
+      expect(TestFreeEmail.new(email:email).valid?).to be false
+    end
+  end
+end
