@@ -73,8 +73,8 @@ This gem is tested with Rails 4.0. Ruby versions tested:
 - Ruby 2.2
 
 ## Credits
-This code is heavily based upon: [lisinge/valid_email2](https://github.com/lisinge/valid_email2)
-Data is from: [lavab/disposable](https://github.com/lavab/disposable/blob/master/domains.txt) and
+- This code is heavily based upon: [lisinge/valid_email2](https://github.com/lisinge/valid_email2) 
+- Data is from: [lavab/disposable](https://github.com/lavab/disposable/blob/master/domains.txt) and
               [willwhite/freemail](https://github.com/willwhite/freemail/blob/master/data/free.txt)
 
 [Gem Version]: https://rubygems.org/gems/email_check
