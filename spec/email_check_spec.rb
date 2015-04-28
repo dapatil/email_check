@@ -125,4 +125,18 @@ describe EmailCheck do
       expect(TestMxEmail.new(email:"foo@shit.example.com").valid?).to be false
     end
   end
+
+  describe "Data loading" do
+    it "should load the blacklist" do
+      expect(EmailCheck.blacklisted_domains.length).to be > 0
+    end
+
+    it "should load free email domains" do
+      expect(EmailCheck.free_email_domains.length).to be > 0
+    end
+
+    it "should load disposable email domains" do
+      expect(EmailCheck.disposable_email_domains.length).to be > 0
+    end
+  end
 end
