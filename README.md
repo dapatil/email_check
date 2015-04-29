@@ -67,7 +67,7 @@ EmailCheck.blacklisted_domains << 'lvh.me'
 ```
 
 ## Requirements
-This gem is tested with Rails 4.0. Ruby versions tested:
+This gem is tested with Rails 4.0+. Ruby versions tested:
 - Ruby 2.0
 - Ruby 2.1
 - Ruby 2.2
