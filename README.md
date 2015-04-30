@@ -63,7 +63,8 @@ validates :email, email: {
     free:true, 
     blacklist:true,
     blocked_usernames:true,
-    message: "Please register with your corporate email" }
+    message: "Please register with your corporate email" 
+}
 ```
 
 ### Modifying inbuilt lists
@@ -78,6 +79,7 @@ EmailCheck.whitelisted_domains << 'gmail.com'
 EmailCheck.free_email_domains << 'thenewgmail.com'
 # Setting a domain in the blacklist also will blacklist all subdomains
 EmailCheck.blacklisted_domains << 'lvh.me'
+# Block the 'anonymous' username for all domains
 EmailCheck.blocked_usernames << 'anonymous'
 ```
 
