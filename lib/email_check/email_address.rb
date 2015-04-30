@@ -33,6 +33,10 @@ module EmailCheck
       EmailCheck.whitelisted_domains.include?(@email.domain)
     end
 
+    def blocked_username?
+      EmailCheck.blocked_usernames.include?(@email.local.downcase)
+    end
+
     def domain_has_mx?
       return false unless format_valid?
 

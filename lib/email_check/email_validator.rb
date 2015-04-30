@@ -12,6 +12,10 @@ class EmailValidator < ActiveModel::EachValidator
 
     return if address.whitelisted?
 
+    if options[:blocked_usernames]
+      error(record, attribute) && return if address.blocked_username?
+    end
+
     if options[:disposable]
       error(record, attribute) && return if address.disposable?
     end

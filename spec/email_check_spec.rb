@@ -20,6 +20,10 @@ class TestWhitelistedEmail < TestModel
   validates :email, email: true
 end
 
+class TestBlockedUsernameEmail < TestModel
+  validates :email, email: { blocked_usernames: true }
+end
+
 class TestMxEmail < TestModel
   validates :email, email: { mx: true }
 end
@@ -126,6 +130,18 @@ describe EmailCheck do
     end
   end
 
+  describe "Blocked Usernames" do
+    it "should be valid if username is not blocked" do
+      EmailCheck.blocked_usernames = []
+      expect(TestBlockedUsernameEmail.new(email:"example@example.com").valid?).to be true
+    end
+
+    it "should be invalid if username is on blocked_usernames list" do
+      EmailCheck.blocked_usernames << "example"
+      expect(TestBlockedUsernameEmail.new(email:"example@example.com").valid?).to be false
+    end
+  end
+
   describe "Data loading" do
     it "should load the blacklist" do
       expect(EmailCheck.blacklisted_domains.length).to be > 0
@@ -137,6 +153,10 @@ describe EmailCheck do
 
     it "should load disposable email domains" do
       expect(EmailCheck.disposable_email_domains.length).to be > 0
+    end
+
+    it "should load blocked usernames" do
+      expect(EmailCheck.blocked_usernames.length).to be > 0
     end
   end
 end

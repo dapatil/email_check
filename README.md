@@ -13,6 +13,8 @@ This gem provides a robust mechanism to validate email addresses and restrict ac
 This gem also ships with a data-set of free and [disposable](http://en.wikipedia.org/wiki/Disposable_email_address)
 email domains which are used for validation checks.
 
+You can also block certain usernames from creating accounts. Examples: admin, root
+
 ### Validation mechanisms
 - Uses the mail gem. 
 - Checks the domain's MX record
@@ -47,9 +49,20 @@ To validate that the domain is not blacklisted:
 ```ruby
 validates :email, email: { blacklist:true}
 ```
+
+To validate that the username is not blocked
+```ruby
+validates :email, email: { blocked_usernames:true }
+
 Everything together:
 ```ruby
-validates :email, email: { mx: true, disposable:true, free:true, blacklist:true, message: "Please register with your corporate email" }
+validates :email, email: { 
+    mx: true, 
+    disposable:true, 
+    free:true, 
+    blacklist:true,
+    blocked_usernames:true,
+    message: "Please register with your corporate email" }
 ```
 
 ### Modifying inbuilt lists
@@ -64,6 +77,7 @@ EmailCheck.whitelisted_domains << 'gmail.com'
 EmailCheck.free_email_domains << 'thenewgmail.com'
 # Setting a domain in the blacklist also will blacklist all subdomains
 EmailCheck.blacklisted_domains << 'lvh.me'
+EmailCheck.blocked_usernames << 'anonymous'
 ```
 
 ## Requirements
