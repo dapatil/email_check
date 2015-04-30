@@ -53,6 +53,7 @@ validates :email, email: { blacklist:true}
 To validate that the username is not blocked
 ```ruby
 validates :email, email: { blocked_usernames:true }
+```
 
 Everything together:
 ```ruby
