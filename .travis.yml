@@ -7,3 +7,5 @@ rvm:
 gemfile:
   - gemfiles/activemodel4.gemfile
 
+before_install: gem install bundler
+
