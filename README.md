@@ -66,7 +66,7 @@ validates_email :email,
     message: "Please register with your corporate email"
 ```
 
-This can be replaced by the validates_email_strictness helper. This turns on all the options
+To turn everything on by default, you can use the validates_email_strictness helper. 
      
 ```ruby
 # Example above
@@ -76,7 +76,7 @@ validates_email_strictness :email
 validates_email_strictness :email, not_free:false
 ```
 
-### Modifying inbuilt lists
+### Modifying the inbuilt lists
 The lists are exposed as assignable arrays so you can customize them or load whatever data you please.
 
 Add a config/intializers/email_check.rb
