@@ -1,40 +1,54 @@
 require 'active_model'
 require 'active_model/validations'
 require 'email_check/email_address'
+require 'pp'
 
 class EmailValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
-    error(record, attribute) unless value.present?
+
+    unless value.present?
+      add_error(record, attribute)
+      return
+    end
 
     address = EmailCheck::EmailAddress.new(value)
 
-    error(record, attribute) && return unless address.format_valid?
-
-    return if address.whitelisted?
-
-    if options[:blocked_usernames]
-      error(record, attribute) && return if address.blocked_username?
+    unless address && address.format_valid?
+      add_error(record, attribute)
+      return
     end
 
-    if options[:disposable]
-      error(record, attribute) && return if address.disposable?
+    if options[:block_special_usernames] && address.blocked_username?
+      add_error(record, attribute)
+      return
     end
 
-    if options[:blacklist]
-      error(record, attribute) && return if address.blacklisted?
+    return if address.whitelisted_domain?
+
+    if options[:not_disposable] && address.disposable?
+      add_error(record, attribute)
+      return
     end
 
-    if options[:free]
-      error(record, attribute) && return if address.free?
+    if options[:not_blacklisted] && address.blacklisted_domain?
+      add_error(record, attribute)
+      return
     end
 
-    if options[:mx]
-      error(record, attribute) && return unless address.domain_has_mx?
+    if options[:not_free] && address.free_email_provider?
+      add_error(record, attribute)
+      return
+    end
+
+    # TODO: Add a callback to bypass this if the domain is already known
+    if options[:check_mx] && address.domain_has_mx? == false
+      add_error(record, attribute)
+      return
     end
   end
 
   private
-  def error(record, attribute)
+  def add_error(record, attribute)
     record.errors.add(attribute, options[:message] || :invalid)
   end
 end

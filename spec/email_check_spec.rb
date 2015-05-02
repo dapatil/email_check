@@ -5,15 +5,15 @@ class TestEmail < TestModel
 end
 
 class TestBlacklistedEmail < TestModel
-  validates :email, email: { blacklist: true }
+  validates :email, email: { not_blacklisted: true }
 end
 
 class TestDisposableEmail < TestModel
-  validates :email, email: { disposable: true}
+  validates :email, email: { not_disposable: true}
 end
 
 class TestFreeEmail < TestModel
-  validates :email, email: { free: true}
+  validates :email, email: { not_free: true}
 end
 
 class TestWhitelistedEmail < TestModel
@@ -21,11 +21,19 @@ class TestWhitelistedEmail < TestModel
 end
 
 class TestBlockedUsernameEmail < TestModel
-  validates :email, email: { blocked_usernames: true }
+  validates :email, email: { block_special_usernames: true }
 end
 
 class TestMxEmail < TestModel
-  validates :email, email: { mx: true }
+  validates :email, email: { check_mx: true }
+end
+
+class TestValidationHelper < TestModel
+  validates_email :email, :alternate_email, not_blacklisted: false
+end
+
+class TestStrictValidationHelper < TestModel
+  validates_corp_email :email
 end
 
 describe EmailCheck do
@@ -157,6 +165,15 @@ describe EmailCheck do
 
     it "should load blocked usernames" do
       expect(EmailCheck.blocked_usernames.length).to be > 0
+    end
+  end
+
+  describe "Validation Helper" do
+    it "should work with multiple fields" do
+      EmailCheck.blacklisted_domains << "example.com"
+      expect(TestValidationHelper.new(email:"foo@mart.io", alternate_email:"bar@example.com").valid?).to be true
+      EmailCheck.blocked_usernames << "root"
+      expect(TestStrictValidationHelper.new(email:"root@mart.io").valid?).to be false
     end
   end
 end

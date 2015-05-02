@@ -1,5 +1,6 @@
 require "email_check/version"
 require "email_check/email_validator"
+require 'email_check/helper_methods'
 
 module EmailCheck
   # Load the data

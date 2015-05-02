@@ -17,11 +17,11 @@ module EmailCheck
       EmailCheck.disposable_email_domains.include?(@email.domain)
     end
 
-    def free?
+    def free_email_provider?
       EmailCheck.free_email_domains.include?(@email.domain)
     end
 
-    def blacklisted?
+    def blacklisted_domain?
       EmailCheck.blacklisted_domains.each do |domain|
         return true if @email.domain.include?(domain)
       end
@@ -29,7 +29,7 @@ module EmailCheck
       false
     end
 
-    def whitelisted?
+    def whitelisted_domain?
       EmailCheck.whitelisted_domains.include?(@email.domain)
     end
 
@@ -39,10 +39,11 @@ module EmailCheck
 
     def domain_has_mx?
       return false unless format_valid?
-
+      val = false
       Resolv::DNS.open do |dns|
-        return dns.getresources(@email.domain, Resolv::DNS::Resource::IN::MX).any?
+        val = dns.getresources(@email.domain, Resolv::DNS::Resource::IN::MX).any?
       end
+      return val
     end
 
     private

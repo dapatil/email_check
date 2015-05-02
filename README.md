@@ -31,40 +31,49 @@ gem "check_email"
 
 ## Usage
 ### Use with ActiveModel
-To validate just the email address:
+To validate just the format of the email address
 ```ruby
 class User < ActiveRecord::Base
-  validates :email, email: true
+  validates_email :email
 end
 ```
 To validate that the domain has a MX record:
 ```ruby
-validates :email, email: { mx: true }
+validates_email :email, check_mx: true
 ```
 To validate that the email is not from a disposable or free email provider:
 ```ruby
-validates :email, email: { disposable:true, free:true }
+validates_email :email, not_disposable:true, not_free:true
 ```
 To validate that the domain is not blacklisted:
 ```ruby
-validates :email, email: { blacklist:true}
+validates_email :email, not_blacklisted:true
 ```
 
 To validate that the username is not blocked
 ```ruby
-validates :email, email: { blocked_usernames:true }
+validates_email :email, block_special_usernames:true
 ```
 
 Everything together:
 ```ruby
-validates :email, email: { 
-    mx: true, 
-    disposable:true, 
-    free:true, 
-    blacklist:true,
-    blocked_usernames:true,
-    message: "Please register with your corporate email" 
-}
+validates_email :email,
+    check_mx: true, 
+    not_disposable:true, 
+    not_free:true, 
+    not_blacklisted:true,
+    block_special_usernames:true,
+    message: "Please register with your corporate email"
+```
+
+This can be replaced by the validates_email_strictness helper. This turns on all the options
+     
+```ruby
+# Example above
+validates_email_strictness :email
+
+# Everything but allow free emails. This is what most people would want to use
+validates_email_strictness :email, not_free:false
 ```
 
 ### Modifying inbuilt lists
