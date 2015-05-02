@@ -33,7 +33,7 @@ class TestValidationHelper < TestModel
 end
 
 class TestStrictValidationHelper < TestModel
-  validates_corp_email :email
+  validates_email_strictness :email
 end
 
 describe EmailCheck do

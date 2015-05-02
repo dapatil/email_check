@@ -14,7 +14,7 @@ module ActiveModel
       end
 
       # Turn everything on..
-      def validates_corp_email(*attr_names)
+      def validates_email_strictness(*attr_names)
         validates_with EmailValidator, _merge_attributes(attr_names).merge(
                                          :check_mx => true,
                                          :not_disposable => true,
