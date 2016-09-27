@@ -7,7 +7,7 @@
 [![Coverage Status][CS img]][Coverage Status]
 
 ## Description
-This was built for [Anonybuzz](https://anonybuzz.com). 
+This was originally built for [Anonybuzz](https://anonybuzz.com) and is now used at [StarTalent](https://startalent.io). 
 This gem provides a robust mechanism to validate email addresses and restrict account creation to corporate email accounts.
 
 This gem also ships with a data-set of free and [disposable](http://en.wikipedia.org/wiki/Disposable_email_address)
@@ -86,7 +86,7 @@ EmailCheck.disposable_email_domains = ['freemail.org']
 # Append to the whitelist
 EmailCheck.whitelisted_domains << 'gmail.com'
 EmailCheck.free_email_domains << 'thenewgmail.com'
-# Setting a domain in the blacklist also will blacklist all subdomains
+# Setting a domain in the blacklist will also blacklist all subdomains
 EmailCheck.blacklisted_domains << 'lvh.me'
 # Block the 'anonymous' username for all domains
 EmailCheck.blocked_usernames << 'anonymous'
@@ -97,6 +97,11 @@ This gem is tested with Rails 4.0+. Ruby versions tested:
 - Ruby 2.0
 - Ruby 2.1
 - Ruby 2.2
+- Ruby 2.3
+
+Rails versions tested:
+Rails 4.0
+Rails 5.0
 
 ## Credits
 - This code is heavily based upon: [lisinge/valid_email2](https://github.com/lisinge/valid_email2) 
