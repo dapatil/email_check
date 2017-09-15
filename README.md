@@ -26,7 +26,7 @@ You can also block certain usernames from creating accounts. Examples: admin, ro
 ## Installation
 Add this line to your application's Gemfile:
 ```ruby
-gem "check_email"
+gem "email_check"
 ```
 
 ## Usage
