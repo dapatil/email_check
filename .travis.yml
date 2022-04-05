@@ -1,20 +1,18 @@
 language: ruby
 rvm:
   - 2.3.0
-  - 2.2.2
-  - 2.1.0
-  - 2.0.0
+  - 2.5.0
 
 gemfile:
   - gemfiles/activemodel4.gemfile
   - gemfiles/activemodel5.gemfile
+  - gemfiles/activemodel6.gemfile
 
 matrix:
   exclude:
-    - rvm: 2.1.0
-      gemfile: gemfiles/activemodel5.gemfile
-    - rvm: 2.0.0
-      gemfile: gemfiles/activemodel5.gemfile
+    - rvm: 2.3.0
+      gemfile: gemfiles/activemodel6.gemfile
+    - rvm: 2.5.0
+      gemfile: gemfiles/activemodel4.gemfile
 
 before_install: gem install bundler
-
