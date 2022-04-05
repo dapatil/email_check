@@ -23,7 +23,7 @@ module EmailCheck
 
     def blacklisted_domain?
       EmailCheck.blacklisted_domains.each do |domain|
-        return true if @email.domain.include?(domain)
+        return true if @email.domain&.include?(domain)
       end
 
       false
