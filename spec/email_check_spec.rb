@@ -114,7 +114,7 @@ describe EmailCheck do
       expect(TestBlacklistedEmail.new(email:"user@sub.gmail.com").valid?).to be false
     end
 
-    it "should not be valid when there is no domain" do
+    it "should not be blacklisted when there is no domain on an email address" do
       EmailCheck.blacklisted_domains << "gmail.com"
       email = "someone"
       email_address = EmailCheck::EmailAddress.new(email)
