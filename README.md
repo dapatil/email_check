@@ -98,9 +98,9 @@ This gem is tested with Rails 4.0+. Ruby versions tested:
 - Ruby 2.5
 
 Rails versions tested:
-Rails 4.0
-Rails 5.0
-Rails 6.0
+- Rails 4.0
+- Rails 5.0
+- Rails 6.0
 
 ## Credits
 - This code is heavily based upon: [lisinge/valid_email2](https://github.com/lisinge/valid_email2) 
